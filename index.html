@@ -108,16 +108,20 @@
     .download-btn {
       background: #00ff99;
       border: none;
-      padding: 8px 14px;
-      border-radius: 10px;
+      padding: 15px;
+      border-radius: 50%;
       color: #000;
-      font-weight: bold;
+      font-size: 20px;
       cursor: pointer;
       text-decoration: none;
-      font-size: 14px;
       position: absolute;
-      right: 20px;
-      bottom: 20px;
+      right: 25px;
+      bottom: 25px;
+    }
+
+    .download-btn img {
+      width: 20px;
+      height: 20px;
     }
 
     audio {
@@ -149,7 +153,9 @@
       <button class="play-btn" id="playBtn1" onclick="togglePlay(1)">Play</button>
     </div>
 
-    <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>Download</a>
+    <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
+      <img src="https://img.icons8.com/ios/50/000000/download.png" alt="Download"/>
+    </a>
   </div>
 
   <div class="player" data-id="2">
@@ -174,7 +180,9 @@
       <button class="play-btn" id="playBtn2" onclick="togglePlay(2)">Play</button>
     </div>
 
-    <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>Download</a>
+    <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
+      <img src="https://img.icons8.com/ios/50/000000/download.png" alt="Download"/>
+    </a>
   </div>
 
   <script>
@@ -199,12 +207,12 @@
       if (audio.paused) {
         audio.play();
         bars.forEach(bar => bar.style.display = 'block');
-        btn.innerText = 'Pause';
+        btn.innerText = 'Pause'; // Change button to Pause when playing
         currentlyPlaying = id;
       } else {
         audio.pause();
         bars.forEach(bar => bar.style.display = 'none');
-        btn.innerText = 'Play';
+        btn.innerText = 'Play'; // Change button back to Play when paused
         currentlyPlaying = null;
       }
     }
@@ -247,7 +255,7 @@
         document.querySelectorAll(`#bars${id} .bar`).forEach(bar => bar.style.display = 'none');
         document.getElementById('progress' + id).style.width = '0%';
         const btn = document.getElementById('playBtn' + id);
-        btn.innerText = 'Play';
+        btn.innerText = 'Play'; // Reset button text to Play when the song ends
         currentlyPlaying = null;
       });
     });
