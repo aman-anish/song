@@ -295,7 +295,7 @@
             <!-- Song 1 -->
             <div class="song">
                 <div class="song-info">
-                    <h3 class="title">Summer Vibes</h3>
+                    <h3 class="title">Aaj Unse Milna Hai slowed(lofi).mp3</h3>
                     <p class="artist">Chill Wave</p>
                 </div>
                 
@@ -351,9 +351,9 @@
             // Add more songs programmatically
             for (let i = 2; i <= 3; i++) {
                 const newSong = document.querySelector('.song').cloneNode(true);
-                newSong.querySelector('.title').textContent = i === 2 ? "Night Drive" : "Morning Coffee";
+                newSong.querySelector('.title').textContent = i === 2 ? "Aaj Unse Milna Hai slowed (lofi)";
                 newSong.querySelector('.artist').textContent = i === 2 ? "Synthwave" : "Jazz Lounge";
-                newSong.querySelector('audio').src = `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${i}.mp3`;
+                newSong.querySelector('audio').src = `Aaj-Unse-Milna-Hai-slowed(lofi).mp3`;
                 document.querySelector('.player').appendChild(newSong);
                 
                 songs.push({
