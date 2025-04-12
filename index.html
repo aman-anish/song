@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Music Player</title>
+    <style>
+        /* Base Styles */
+        :root {
+            --primary: #4cc9f0;
+            --secondary: #f72585;
+            --accent: #7209b7;
+            --background: #1a1a2e;
+            --background-light: #16213e;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, var(--background), var(--background-light));
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.2rem;
+        }
+
+        /* Audio Player Styles */
+        .player {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .song {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .song.active {
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .song-info {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .title {
+            font-size: 24px;
+            margin: 0 0 8px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .artist {
+            font-size: 16px;
+            margin: 0;
+            opacity: 0.9;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .control-btn:hover::before {
+            opacity: 1;
+        }
+
+        .control-btn i {
+            font-size: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            box-shadow: 0 8px 20px rgba(76, 201, 240, 0.4);
+        }
+
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(76, 201, 240, 0.6);
+        }
+
+        /* Progress Bar Styles */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.3;
+        }
+
+        .progress {
+            height: 100%;
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s linear;
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            box-shadow: 0 0 10px rgba(114, 9, 183, 0.5);
+        }
+
+        .progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.8), 
+                rgba(255,255,255,0.2));
+            border-radius: 10px;
+            opacity: 0.3;
+        }
+
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        /* Animation Styles */
+        .animation-container {
+            height: 100px;
+            margin-top: 20px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .bar {
+            width: 10px;
+            border-radius: 5px;
+            animation: equalize 1.5s infinite ease-in-out;
+            animation-play-state: paused;
+            background: linear-gradient(to top, var(--primary), var(--secondary));
+            box-shadow: 0 0 10px rgba(76, 201, 240, 0.5);
+            position: relative;
+        }
+
+        .bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(255,255,255,0.8), 
+                rgba(255,255,255,0.2));
+            border-radius: 5px;
+        }
+
+        .song.active .bar {
+            animation-play-state: running;
+        }
+
+        @keyframes equalize {
+            0%, 100% {
+                height: 20%;
+            }
+            50% {
+                height: 100%;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .title {
+                font-size: 20px;
+            }
+            
+            .artist {
+                font-size: 15px;
+            }
+            
+            .controls {
+                gap: 15px;
+            }
+            
+            .control-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .play-btn {
+                width: 55px;
+                height: 55px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Colorful Music Player</h1>
+        
+        <div class="player">
+            <!-- Song 1 -->
+            <div class="song">
+                <div class="song-info">
+                    <h3 class="title">Summer Vibes</h3>
+                    <p class="artist">Chill Wave</p>
+                </div>
+                
+                <div class="controls">
+                    <button class="control-btn back-btn" title="Back 15 seconds">
+                        <i class="fas fa-backward"></i>
+                    </button>
+                    <button class="play-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn forward-btn" title="Forward 15 seconds">
+                        <i class="fas fa-forward"></i>
+                    </button>
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress"></div>
+                </div>
+                
+                <div class="time-display">
+                    <span class="current-time">0:00</span>
+                    <span class="duration">0:00</span>
+                </div>
+                
+                <div class="animation-container">
+                    <div class="bar" style="animation-delay: 0.1s; height: 30%;"></div>
+                    <div class="bar" style="animation-delay: 0.2s; height: 60%;"></div>
+                    <div class="bar" style="animation-delay: 0.3s; height: 40%;"></div>
+                    <div class="bar" style="animation-delay: 0.4s; height: 80%;"></div>
+                    <div class="bar" style="animation-delay: 0.5s; height: 50%;"></div>
+                    <div class="bar" style="animation-delay: 0.6s; height: 70%;"></div>
+                    <div class="bar" style="animation-delay: 0.7s; height: 30%;"></div>
+                    <div class="bar" style="animation-delay: 0.8s; height: 60%;"></div>
+                </div>
+                
+                <audio src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const songs = [
+                {
+                    element: document.querySelector('.song'),
+                    title: "Summer Vibes",
+                    artist: "Chill Wave",
+                    audio: document.querySelector('.song audio'),
+                    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                }
+            ];
+            
+            // Add more songs programmatically
+            for (let i = 2; i <= 3; i++) {
+                const newSong = document.querySelector('.song').cloneNode(true);
+                newSong.querySelector('.title').textContent = i === 2 ? "Night Drive" : "Morning Coffee";
+                newSong.querySelector('.artist').textContent = i === 2 ? "Synthwave" : "Jazz Lounge";
+                newSong.querySelector('audio').src = `https://www.soundhelix.com/examples/mp3/SoundHelix-Song-${i}.mp3`;
+                document.querySelector('.player').appendChild(newSong);
+                
+                songs.push({
+                    element: newSong,
+                    title: newSong.querySelector('.title').textContent,
+                    artist: newSong.querySelector('.artist').textContent,
+                    audio: newSong.querySelector('audio'),
+                    src: newSong.querySelector('audio').src
+                });
+            }
+            
+            let currentSongIndex = 0;
+            let currentlyPlaying = null;
+            let isDragging = false;
+            
+            function setupSong(song, index) {
+                const playBtn = song.element.querySelector('.play-btn');
+                const backBtn = song.element.querySelector('.back-btn');
+                const forwardBtn = song.element.querySelector('.forward-btn');
+                const progressContainer = song.element.querySelector('.progress-container');
+                const progress = song.element.querySelector('.progress');
+                const currentTimeDisplay = song.element.querySelector('.current-time');
+                const durationDisplay = song.element.querySelector('.duration');
+                
+                // Play/Pause functionality
+                playBtn.addEventListener('click', function() {
+                    togglePlay(index);
+                });
+                
+                // 15 seconds back
+                backBtn.addEventListener('click', function() {
+                    song.audio.currentTime = Math.max(0, song.audio.currentTime - 15);
+                });
+                
+                // 15 seconds forward
+                forwardBtn.addEventListener('click', function() {
+                    song.audio.currentTime = Math.min(song.audio.duration, song.audio.currentTime + 15);
+                });
+                
+                // Update progress bar
+                song.audio.addEventListener('timeupdate', function() {
+                    if (!song.audio.duration || isDragging) return;
+                    
+                    const currentTime = song.audio.currentTime;
+                    const duration = song.audio.duration;
+                    const progressPercent = (currentTime / duration) * 100;
+                    progress.style.width = `${progressPercent}%`;
+                    
+                    // Update time display
+                    currentTimeDisplay.textContent = formatTime(currentTime);
+                    if (duration) {
+                        durationDisplay.textContent = formatTime(duration);
+                    }
+                });
+                
+                // Progress bar interaction
+                progressContainer.addEventListener('mousedown', function(e) {
+                    isDragging = true;
+                    updateProgress(e, song, progressContainer, progress);
+                });
+                
+                document.addEventListener('mousemove', function(e) {
+                    if (isDragging && currentlyPlaying && currentlyPlaying.element === song.element) {
+                        updateProgress(e, song, progressContainer, progress);
+                    }
+                });
+                
+                document.addEventListener('mouseup', function() {
+                    if (isDragging) {
+                        isDragging = false;
+                        // Update time display immediately after dragging
+                        currentTimeDisplay.textContent = formatTime(song.audio.currentTime);
+                    }
+                });
+                
+                // Click on progress bar to seek
+                progressContainer.addEventListener('click', function(e) {
+                    updateProgress(e, song, progressContainer, progress);
+                });
+                
+                // When song ends
+                song.audio.addEventListener('ended', function() {
+                    song.element.classList.remove('active');
+                    song.element.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+                    progress.style.width = '0%';
+                    currentTimeDisplay.textContent = '0:00';
+                    currentlyPlaying = null;
+                });
+                
+                // When metadata is loaded
+                song.audio.addEventListener('loadedmetadata', function() {
+                    durationDisplay.textContent = formatTime(song.audio.duration);
+                });
+            }
+            
+            function updateProgress(e, song, container, progress) {
+                const width = container.clientWidth;
+                const clickX = e.offsetX || (e.clientX - container.getBoundingClientRect().left);
+                const duration = song.audio.duration;
+                const newTime = (clickX / width) * duration;
+                
+                song.audio.currentTime = newTime;
+                const progressPercent = (newTime / duration) * 100;
+                progress.style.width = `${progressPercent}%`;
+            }
+            
+            // Initialize all songs
+            songs.forEach((song, index) => {
+                setupSong(song, index);
+            });
+            
+            function togglePlay(index) {
+                const song = songs[index];
+                
+                // If this song is already playing, pause it
+                if (song.element.classList.contains('active')) {
+                    song.audio.pause();
+                    song.element.classList.remove('active');
+                    song.element.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+                    currentlyPlaying = null;
+                    return;
+                }
+                
+                // Pause any currently playing song
+                if (currentlyPlaying) {
+                    currentlyPlaying.audio.pause();
+                    currentlyPlaying.element.classList.remove('active');
+                    currentlyPlaying.element.querySelector('.play-btn').innerHTML = '<i class="fas fa-play"></i>';
+                }
+                
+                // Play this song
+                song.audio.play();
+                song.element.classList.add('active');
+                song.element.querySelector('.play-btn').innerHTML = '<i class="fas fa-pause"></i>';
+                currentlyPlaying = song;
+                currentSongIndex = index;
+            }
+            
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            
+            // Keyboard controls
+            document.addEventListener('keydown', function(e) {
+                if (!currentlyPlaying) return;
+                
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    togglePlay(currentSongIndex);
+                } else if (e.code === 'ArrowRight') {
+                    currentlyPlaying.audio.currentTime = Math.min(
+                        currentlyPlaying.audio.duration, 
+                        currentlyPlaying.audio.currentTime + 15
+                    );
+                } else if (e.code === 'ArrowLeft') {
+                    currentlyPlaying.audio.currentTime = Math.max(
+                        0, 
+                        currentlyPlaying.audio.currentTime - 15
+                    );
+                }
+            });
+        });
+    </script>
+</body>
+</html>
