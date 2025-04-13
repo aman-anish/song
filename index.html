@@ -44,7 +44,6 @@
 
     .bar {
       width: 5px;
-      background: #00ffcc;
       height: 20px;
       animation: bounce 1s infinite ease-in-out;
       transform-origin: bottom;
@@ -61,6 +60,17 @@
       50% { transform: scaleY(4); }
     }
 
+    @keyframes rainbow {
+      0% { background-color: red; }
+      14% { background-color: orange; }
+      28% { background-color: yellow; }
+      42% { background-color: green; }
+      57% { background-color: blue; }
+      71% { background-color: indigo; }
+      85% { background-color: violet; }
+      100% { background-color: red; }
+    }
+
     .progress-container {
       width: 100%;
       background: #444;
@@ -73,8 +83,8 @@
 
     .progress-filled {
       height: 100%;
-      background: #00ff99;
       width: 0%;
+      animation: rainbow 3s infinite;
     }
 
     .time-display {
@@ -128,7 +138,7 @@
 
   <div class="player" id="player1">
     <div class="song-title">Aaj Unse Milna Hai (Lofi 1)</div>
-    <audio id="audio1" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3"></audio>
+    <audio id="audio1" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" lazy></audio>
     <div class="visualizer-container" id="viz1">
       <div class="bar"></div>
       <div class="bar"></div>
@@ -144,13 +154,13 @@
       <button class="play-btn" id="playBtn1" onclick="togglePlay(1)">Play</button>
     </div>
     <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
-      <img src="download-button.png" alt="Download">
+      <img src="download-button.png" alt="Download" loading="lazy">
     </a>
   </div>
 
   <div class="player" id="player2">
     <div class="song-title">Aaj Unse Milna Hai (Lofi 2)</div>
-    <audio id="audio2" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3"></audio>
+    <audio id="audio2" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" lazy></audio>
     <div class="visualizer-container" id="viz2">
       <div class="bar"></div>
       <div class="bar"></div>
@@ -166,31 +176,9 @@
       <button class="play-btn" id="playBtn2" onclick="togglePlay(2)">Play</button>
     </div>
     <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
-      <img src="download-button.png" alt="Download">
+      <img src="download-button.png" alt="Download" loading="lazy">
     </a>
   </div>
-<div class="player" id="player3">
-  <div class="song-title">Aaj Unse Milna Hai (Lofi 3)</div>
-  <audio id="audio3" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3"></audio>
-  <div class="visualizer-container" id="viz3">
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-    <div class="bar"></div>
-  </div>
-  <div class="progress-container" onclick="seek(event, 3)">
-    <div class="progress-filled" id="progress3"></div>
-  </div>
-  <div class="time-display" id="time3">0:00 / 0:00</div>
-  <div class="controls">
-    <button class="play-btn" id="playBtn3" onclick="togglePlay(3)">Play</button>
-  </div>
-  <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
-    <img src="download-button.png" alt="Download">
-  </a>
-</div>
-
 
   <script>
     let currentlyPlaying = null;
@@ -254,7 +242,7 @@
       audio.currentTime = (offsetX / width) * duration;
     }
 
-    [1, 2, 3].forEach(id => {
+    [1, 2].forEach(id => {
       const audio = document.getElementById('audio' + id);
       audio.addEventListener('timeupdate', () => updateProgress(id));
       audio.addEventListener('ended', () => {
