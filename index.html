@@ -15,7 +15,6 @@
       position: relative;
     }
 
-    /* Full screen stars animation */
     .stars {
       position: absolute;
       top: 0;
@@ -156,9 +155,20 @@
       display: none;
     }
 
+    #searchBar {
+      width: 90%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
+
+  <input type="text" id="searchBar" placeholder="Search for a song..." oninput="searchSong()">
 
   <div class="stars" id="stars"></div>
 
@@ -166,11 +176,7 @@
     <div class="song-title">Aaj Unse Milna Hai slowed (Lofi)<br> Artist: Shaan</div>
     <audio id="audio1" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" lazy></audio>
     <div class="visualizer-container" id="viz1">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
     <div class="progress-container" onclick="seek(event, 1)">
       <div class="progress-filled" id="progress1"></div>
@@ -188,11 +194,7 @@
     <div class="song-title">Bahut Jatate Hai Chah Hamse</div>
     <audio id="audio2" src="Bahut-Jatate-Hai-Chah-Hamse.mp3" lazy></audio>
     <div class="visualizer-container" id="viz2">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
     <div class="progress-container" onclick="seek(event, 2)">
       <div class="progress-filled" id="progress2"></div>
@@ -201,7 +203,7 @@
     <div class="controls">
       <button class="play-btn" id="playBtn2" onclick="togglePlay(2)">Play</button>
     </div>
-    <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
+    <a class="download-btn" href="Bahut-Jatate-Hai-Chah-Hamse.mp3" download>
       <img src="download-button.png" alt="Download" loading="lazy">
     </a>
   </div>
@@ -209,11 +211,9 @@
   <script>
     let currentlyPlaying = null;
 
-    // Function to show stars when music is playing
     function startStars() {
       const stars = document.getElementById('stars');
       stars.style.display = 'block';
-
       for (let i = 0; i < 100; i++) {
         const star = document.createElement('div');
         star.classList.add('star');
@@ -226,7 +226,6 @@
       }
     }
 
-    // Function to stop stars when music is paused
     function stopStars() {
       const stars = document.getElementById('stars');
       stars.innerHTML = '';
@@ -293,6 +292,16 @@
       const offsetX = e.offsetX;
       const duration = audio.duration;
       audio.currentTime = (offsetX / width) * duration;
+    }
+
+    function searchSong() {
+      const query = document.getElementById('searchBar').value.toLowerCase();
+      const players = document.querySelectorAll('.player');
+
+      players.forEach(player => {
+        const title = player.querySelector('.song-title').innerText.toLowerCase();
+        player.style.display = title.includes(query) ? 'block' : 'none';
+      });
     }
 
     [1, 2].forEach(id => {
