@@ -1,42 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Bhojpuri Song </title>
-<style>
-body {
-  background-color: #121212; /* Dark background */
-  color: #ffffff; /* Text color */
-  font-family: Arial;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  margin: 0;
-}
+  <title>Bhojpuri Song</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      font-family: Arial, sans-serif;
+    }
 
-h1 {
-  font-size: 3em; /* Large h1 */
-  margin-bottom: 20px;
-}
+    .cursive-button {
+      font-family: Arial, sans-serif;
+      font-size: 28px; /* Increased font size */
+      background-color: #f0e68c;
+      color: #8b4513;
+      padding: 20px 40px; /* Increased padding */
+      border: 2px solid #a0522d;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
 
-button {
-  padding: 20px 40px; /* Large button */
-  font-size: 1.5em;
-  background-color: #333333; /* Button background */
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
+    .cursive-button:hover {
+      background-color: #e6d76b;
+    }
 
-button:hover {
-  background-color: #555555; /* Hover color change */
-}
-</style>
+    h1 {
+      font-family: Arial, sans-serif;
+      color: #8b4513;
+      font-size: 36px; /* Increased font size */
+      margin-bottom: 30px; /* More space between h1 and button */
+    }
+  </style>
 </head>
 <body>
-<h1>This is a Large Heading</h1>
-<button>This is a Large Button</button>
+  <h1>Bhojpuri song is going to come very soon.</h1>
+  <button class="cursive-button" onclick="location.href='index.html'">Go to Home page</button>
 </body>
 </html>
