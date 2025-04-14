@@ -3,26 +3,42 @@
 <head>
 <title>Stylish Button</title>
 <style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    flex-direction: column; /* Added to center both button and h1 vertically */
+  }
+
   .cursive-button {
-    font-family: cursive; /* Use cursive font */
-    font-size: 24px; /* Adjust font size */
-    background-color: #f0e68c; /* Light goldenrod yellow background */
-    color: #8b4513; /* Saddle brown text color */
-    padding: 15px 30px; /* Padding for spacing */
-    border: 2px solid #a0522d; /* Sienna border */
-    border-radius: 10px; /* Rounded corners */
-    cursor: pointer; /* Change cursor on hover */
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3); /* Add shadow */
-    transition: background-color 0.3s ease; /* Smooth transition */
+    font-family: cursive;
+    font-size: 24px;
+    background-color: #f0e68c;
+    color: #8b4513;
+    padding: 15px 30px;
+    border: 2px solid #a0522d;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
   }
 
   .cursive-button:hover {
-    background-color: #e6d76b; /* Slightly darker on hover */
+    background-color: #e6d76b;
+  }
+
+  h1 {
+    font-family: cursive;
+    color: #8b4513;
+    margin-bottom: 20px; /* Add some space between h1 and button */
   }
 </style>
 </head>
 <body>
 
+<h1>Welcome to My Page</h1>
 <button class="cursive-button" onclick="location.href='index.html'">Go to Home page</button>
 
 </body>
