@@ -21,6 +21,56 @@
       color: #00ffc8;
     }
 
+    .menu-btn {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      background: #00ffc8;
+      color: #000;
+      border: none;
+      padding: 10px 16px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .menu-btn:hover {
+      background: #00e0b3;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      height: 100%;
+      width: 250px;
+      background: #1a1a1a;
+      padding-top: 60px;
+      transition: left 0.3s ease;
+      z-index: 99;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 15px 20px;
+      color: #00ffc8;
+      text-decoration: none;
+      font-size: 18px;
+      border-bottom: 1px solid #333;
+    }
+
+    .sidebar a:hover {
+      background: #333;
+    }
+
     .stars {
       position: fixed;
       top: 0;
@@ -41,14 +91,8 @@
     }
 
     @keyframes moveStars {
-      0% {
-        transform: translateY(-100%) translateX(0);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translateY(100vh) translateX(0);
-        opacity: 0;
-      }
+      0% { transform: translateY(-100%) translateX(0); opacity: 0.8; }
+      100% { transform: translateY(100vh) translateX(0); opacity: 0; }
     }
 
     .player {
@@ -175,14 +219,22 @@
   </style>
 </head>
 <body>
-  <h1>Romantic Songs by Aman-Anish 😢</h1>
+  <button class="menu-btn" id="menuBtn" onclick="toggleSidebar()">Menu</button>
+
+  <div class="sidebar" id="sidebar">
+    <a href="index.html">Home</a>
+    <a href="sad.html">Sad Songs</a>
+    <a href="bhojpuri.html">Bhojpuri Songs</a>
+  </div>
+
+  <h1>Romantic Songs by Aman-Anish</h1>
   <input type="text" id="searchBar" placeholder="Search for a song..." oninput="searchSong()">
 
   <div class="stars" id="stars"></div>
 
   <div class="player" id="player1">
-    <div class="song-title">Wakh-Ho-Jana.mp3<br> Artist: Gurnam Bhullar</div>
-    <audio id="audio1" src="Wakh-Ho-Jana.mp3" lazy></audio>
+    <div class="song-title">Aaj Unse Milna Hai slowed (Lofi)<br> Artist: Shaan</div>
+    <audio id="audio1" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" lazy></audio>
     <div class="visualizer-container" id="viz1">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
     </div>
@@ -193,7 +245,7 @@
     <div class="controls">
       <button class="play-btn" id="playBtn1" onclick="togglePlay(1)">Play</button>
     </div>
-    <a class="download-btn" href="Wakh-Ho-Jana.mp3" download>
+    <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
       <img src="download-button.png" alt="Download" loading="lazy">
     </a>
   </div>
@@ -217,8 +269,7 @@
   </div>
 
   <div class="player" id="player3">
-    <div class="song-title">Sau Rab Di<br> Artist: Abhijeet Bhattacharya and Alka Yagnik
-    </div>
+    <div class="song-title">Sau Rab Di<br> Artist: Abhijeet Bhattacharya and Alka Yagnik</div>
     <audio id="audio3" src="Sau-Rab-Di.mp3"></audio>
     <div class="visualizer-container" id="viz3">
       <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
@@ -237,6 +288,14 @@
 
   <script>
     let currentlyPlaying = null;
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      const menuBtn = document.getElementById("menuBtn");
+
+      sidebar.classList.toggle("open");
+      menuBtn.textContent = sidebar.classList.contains("open") ? "Close" : "Menu";
+    }
 
     function startStars() {
       const stars = document.getElementById('stars');
@@ -331,7 +390,7 @@
       });
     }
 
-    [1, 2, 3, 4].forEach(id => {
+    [1, 2, 3].forEach(id => {
       const audio = document.getElementById('audio' + id);
       audio.addEventListener('timeupdate', () => updateProgress(id));
       audio.addEventListener('ended', () => {
