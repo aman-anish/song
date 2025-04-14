@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="logo.png" type="image/png">
+  <title>Romantic Songs by Aman-Anish</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      text-align: center;
+      padding: 40px 10px;
+      position: relative;
+    }
+
+    h1 {
+      font-family: Cursive;
+      font-size: 2.5em;
+      color: #00ffc8;
+    }
+
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      pointer-events: none;
+      display: none;
+      z-index: -1;
+    }
+
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: moveStars 3s infinite;
+    }
+
+    @keyframes moveStars {
+      0% {
+        transform: translateY(-100%) translateX(0);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+    }
+
+    .player {
+      background: #1a1a1a;
+      border-radius: 16px;
+      padding: 30px 20px;
+      margin: 30px auto;
+      max-width: 500px;
+      position: relative;
+      box-shadow: 0 0 15px rgba(0, 255, 150, 0.2);
+      z-index: 1;
+    }
+
+    .song-title {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #00ffc8;
+    }
+
+    .visualizer-container {
+      display: none;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 20px;
+      height: 80px;
+      align-items: flex-end;
+    }
+
+    .visualizer-container.active {
+      display: flex;
+    }
+
+    .bar {
+      width: 5px;
+      height: 20px;
+      background-color: #00ffc8;
+      animation: bounce 1s infinite ease-in-out;
+      transform-origin: bottom;
+    }
+
+    .bar:nth-child(1) { animation-delay: 0s; }
+    .bar:nth-child(2) { animation-delay: 0.1s; }
+    .bar:nth-child(3) { animation-delay: 0.2s; }
+    .bar:nth-child(4) { animation-delay: 0.3s; }
+    .bar:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 100% { transform: scaleY(0.2); }
+      50% { transform: scaleY(4); }
+    }
+
+    .progress-container {
+      width: 100%;
+      background: #444;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 8px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .progress-filled {
+      height: 100%;
+      width: 0%;
+      background: #00ff99;
+    }
+
+    .time-display {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .play-btn {
+      width: 80px;
+      height: 40px;
+      border: 2px solid #00ff99;
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 16px;
+      color: #00ff99;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .download-btn {
+      background: transparent;
+      border: none;
+      padding: 8px;
+      border-radius: 50%;
+      cursor: pointer;
+      position: absolute;
+      right: 20px;
+      bottom: 20px;
+    }
+
+    .download-btn img {
+      width: 48px;
+      height: 48px;
+      filter: invert(1);
+    }
+
+    audio {
+      display: none;
+    }
+
+    #searchBar {
+      width: 90%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Romantic Songs by Aman-Anish</h1>
+  <input type="text" id="searchBar" placeholder="Search for a song..." oninput="searchSong()">
+
+  <div class="stars" id="stars"></div>
+
+  <div class="player" id="player1">
+    <div class="song-title">Aaj Unse Milna Hai slowed (Lofi)<br> Artist: Shaan</div>
+    <audio id="audio1" src="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" lazy></audio>
+    <div class="visualizer-container" id="viz1">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <div class="progress-container" onclick="seek(event, 1)">
+      <div class="progress-filled" id="progress1"></div>
+    </div>
+    <div class="time-display" id="time1">0:00 / 0:00</div>
+    <div class="controls">
+      <button class="play-btn" id="playBtn1" onclick="togglePlay(1)">Play</button>
+    </div>
+    <a class="download-btn" href="Aaj-Unse-Milna-Hai-slowed(lofi).mp3" download>
+      <img src="download-button.png" alt="Download" loading="lazy">
+    </a>
+  </div>
+
+  <div class="player" id="player2">
+    <div class="song-title">Bahut Jatate Hai Chah Hamse<br> Artist: Alka Yagnik, Mohammed Aziz</div>
+    <audio id="audio2" src="Bahut-Jatate-Hai-Chah-Hamse.mp3" lazy></audio>
+    <div class="visualizer-container" id="viz2">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <div class="progress-container" onclick="seek(event, 2)">
+      <div class="progress-filled" id="progress2"></div>
+    </div>
+    <div class="time-display" id="time2">0:00 / 0:00</div>
+    <div class="controls">
+      <button class="play-btn" id="playBtn2" onclick="togglePlay(2)">Play</button>
+    </div>
+    <a class="download-btn" href="Bahut-Jatate-Hai-Chah-Hamse.mp3" download>
+      <img src="download-button.png" alt="Download" loading="lazy">
+    </a>
+  </div>
+
+  <div class="player" id="player3">
+    <div class="song-title">Sau Rab Di<br> Artist: Abhijeet Bhattacharya and Alka Yagnik
+    </div>
+    <audio id="audio3" src="Sau-Rab-Di.mp3"></audio>
+    <div class="visualizer-container" id="viz3">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <div class="progress-container" onclick="seek(event, 3)">
+      <div class="progress-filled" id="progress3"></div>
+    </div>
+    <div class="time-display" id="time3">0:00 / 0:00</div>
+    <div class="controls">
+      <button class="play-btn" id="playBtn3" onclick="togglePlay(3)">Play</button>
+    </div>
+    <a class="download-btn" href="Sau-Rab-Di.mp3" download>
+      <img src="download-button.png" alt="Download">
+    </a>
+  </div>
+
+  <script>
+    let currentlyPlaying = null;
+
+    function startStars() {
+      const stars = document.getElementById('stars');
+      stars.style.display = 'block';
+      for (let i = 0; i < 100; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.width = `${Math.random() * 5 + 2}px`;
+        star.style.height = star.style.width;
+        star.style.animationDuration = `${Math.random() * 3 + 2}s`;
+        star.style.animationDelay = `${Math.random() * 2}s`;
+        star.style.left = `${Math.random() * 100}%`;
+        stars.appendChild(star);
+      }
+    }
+
+    function stopStars() {
+      const stars = document.getElementById('stars');
+      stars.innerHTML = '';
+      stars.style.display = 'none';
+    }
+
+    function togglePlay(id) {
+      const audio = document.getElementById('audio' + id);
+      const btn = document.getElementById('playBtn' + id);
+      const player = document.getElementById('player' + id);
+      const visualizer = document.getElementById('viz' + id);
+
+      if (currentlyPlaying && currentlyPlaying !== id) {
+        const otherAudio = document.getElementById('audio' + currentlyPlaying);
+        const otherBtn = document.getElementById('playBtn' + currentlyPlaying);
+        const otherPlayer = document.getElementById('player' + currentlyPlaying);
+        const otherViz = document.getElementById('viz' + currentlyPlaying);
+
+        otherAudio.pause();
+        otherAudio.currentTime = 0;
+        otherBtn.innerText = "Play";
+        otherPlayer.classList.remove("playing");
+        otherViz.classList.remove("active");
+        stopStars();
+      }
+
+      if (audio.paused) {
+        audio.play();
+        btn.innerText = "Pause";
+        player.classList.add("playing");
+        visualizer.classList.add("active");
+        startStars();
+        currentlyPlaying = id;
+      } else {
+        audio.pause();
+        btn.innerText = "Play";
+        player.classList.remove("playing");
+        visualizer.classList.remove("active");
+        stopStars();
+        currentlyPlaying = null;
+      }
+    }
+
+    function updateProgress(id) {
+      const audio = document.getElementById('audio' + id);
+      const progress = document.getElementById('progress' + id);
+      const timeDisplay = document.getElementById('time' + id);
+      const percent = (audio.currentTime / audio.duration) * 100;
+      progress.style.width = percent + '%';
+
+      const formatTime = (t) => {
+        const mins = Math.floor(t / 60);
+        const secs = Math.floor(t % 60);
+        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+      };
+
+      timeDisplay.textContent = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration || 0)}`;
+    }
+
+    function seek(e, id) {
+      const audio = document.getElementById('audio' + id);
+      const progress = e.currentTarget;
+      const width = progress.offsetWidth;
+      const offsetX = e.offsetX;
+      const duration = audio.duration;
+      audio.currentTime = (offsetX / width) * duration;
+    }
+
+    function searchSong() {
+      const query = document.getElementById('searchBar').value.toLowerCase();
+      const players = document.querySelectorAll('.player');
+
+      players.forEach(player => {
+        const title = player.querySelector('.song-title').innerText.toLowerCase();
+        player.style.display = title.includes(query) ? 'block' : 'none';
+      });
+    }
+
+    [1, 2, 3, 4].forEach(id => {
+      const audio = document.getElementById('audio' + id);
+      audio.addEventListener('timeupdate', () => updateProgress(id));
+      audio.addEventListener('ended', () => {
+        document.getElementById('progress' + id).style.width = '0%';
+        document.getElementById('playBtn' + id).innerText = 'Play';
+        document.getElementById('player' + id).classList.remove("playing");
+        document.getElementById('viz' + id).classList.remove("active");
+        stopStars();
+        currentlyPlaying = null;
+      });
+    });
+  </script>
+</body>
+</html>
