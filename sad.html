@@ -295,6 +295,29 @@
     </a>
   </div>
 
+  <div class="player" id="player4">
+  <div class="song-title">Aaj Unse Milna Hai (Lofi 3)</div>
+  <audio id="audio4" src="KAUN-TUJHE.mp3"></audio>
+  <div class="visualizer-container" id="viz4">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  <div class="progress-container" onclick="seek(event, 4)">
+    <div class="progress-filled" id="progress4"></div>
+  </div>
+  <div class="time-display" id="time4">0:00 / 0:00</div>
+  <div class="controls">
+    <button class="play-btn" id="playBtn4" onclick="togglePlay(4)">Play</button>
+  </div>
+  <a class="download-btn" href="KAUN-TUJHE.mp3" download>
+    <img src="download-button.png" alt="Download">
+  </a>
+  </div>
+  
+
   <script>
     let currentlyPlaying = null;
 
@@ -399,7 +422,7 @@
       });
     }
 
-    [1, 2, 3].forEach(id => {
+    [1, 2, 3, 4].forEach(id => {
       const audio = document.getElementById('audio' + id);
       audio.addEventListener('timeupdate', () => updateProgress(id));
       audio.addEventListener('ended', () => {
