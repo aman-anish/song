@@ -294,6 +294,29 @@
       <img src="download-button.png" alt="Download">
     </a>
   </div>
+  <div class="player" id="player4">
+  <div class="song-title">Dil Laga Liya</div>
+    <div class="artist">Artist: Palak Muchhal</div>
+  <audio id="audio4" src="Dil-Laga-Liya.mp3"></audio>
+  <div class="visualizer-container" id="viz4">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  <div class="progress-container" onclick="seek(event, 4)">
+    <div class="progress-filled" id="progress4"></div>
+  </div>
+  <div class="time-display" id="time4">0:00 / 0:00</div>
+  <div class="controls">
+    <button class="play-btn" id="playBtn4" onclick="togglePlay(4)">Play</button>
+  </div>
+  <a class="download-btn" href="Dil-Laga-Liya.mp3" download>
+    <img src="download-button.png" alt="Download">
+  </a>
+  </div>
+  
 
   <script>
     let currentlyPlaying = null;
