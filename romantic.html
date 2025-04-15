@@ -422,7 +422,7 @@
       });
     }
 
-    [1, 2, 3].forEach(id => {
+    [1, 2, 3, 4].forEach(id => {
       const audio = document.getElementById('audio' + id);
       audio.addEventListener('timeupdate', () => updateProgress(id));
       audio.addEventListener('ended', () => {
