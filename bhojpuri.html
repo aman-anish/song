@@ -387,25 +387,29 @@
       const duration = audio.duration;
       audio.currentTime = (offsetX / width) * duration;
     }
+  
+  function searchSong() {
+  const query = document.getElementById('searchBar').value.toLowerCase();
+  const players = document.querySelectorAll('.player');
 
-    function searchSong() {
-      const query = document.getElementById('searchBar').value.toLowerCase();
-      const players = document.querySelectorAll('.player');
+  // Update the URL with search query
+  const newURL = new URL(window.location);
+  if (query) {
+    newURL.searchParams.set('search', query);
+  } else {
+    newURL.searchParams.delete('search');
+  }
+  window.history.replaceState({}, '', newURL);
 
-      // Update the URL
-      const newURL = new URL(window.location);
-      if (query) {
-        newURL.searchParams.set('search', query);
-      } else {
-        newURL.searchParams.delete('search');
-      }
-      window.history.replaceState({}, '', newURL);
+  players.forEach(player => {
+    const title = player.querySelector('.song-title').innerText.toLowerCase();
+    const artist = player.querySelector('.artist').innerText.toLowerCase();
 
-      players.forEach(player => {
-        const title = player.querySelector('.song-title').innerText.toLowerCase();
-        player.style.display = title.includes(query) ? 'block' : 'none';
-      });
-    }
+    // Show player if either title or artist matches the search query
+    player.style.display = title.includes(query) || artist.includes(query) ? 'block' : 'none';
+  });
+}
+
 
     // Run filter on page load if search param exists
     window.addEventListener('DOMContentLoaded', () => {
