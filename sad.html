@@ -21,6 +21,42 @@
       color: #00ffc8;
     }
 
+    
+    .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 10px rgba(106, 90, 205, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px;
+      outline: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(3deg);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 191, 255, 0.5);
+    }
+
+    
+    .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15), 0 0 10px rgba(106, 90, 205, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 20px;
+      outline: none;
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(3deg);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 191, 255, 0.5);
+    }
+
     .menu-btn {
       position: fixed;
       top: 10px;
@@ -234,6 +270,7 @@
   </div>
 
   <h1>Sad Songs by <br>Aman-Anish</h1>
+  <img src="logo-2.png" alt="Logo 2" class="logo">
   <input type="text" id="searchBar" placeholder="Search for a song..." oninput="searchSong()">
 
   <div class="stars" id="stars"></div>
