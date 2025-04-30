@@ -1,19 +1,17 @@
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #000000; /* Black background */
+    background-color: #000000;
     color: #ffffff;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column; /* Align items vertically */
-    align-items: center; /* Horizontally center the content */
-    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
     text-align: center;
-    overflow: hidden; /* Prevent scrolling */
     position: relative;
 }
 
-/* Heading Styling */
 h1 {
     font-size: 2.5em;
     margin-bottom: 50px;
@@ -58,7 +56,6 @@ h1 {
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2), 0 0 12px rgba(0, 191, 255, 0.5);
 }
 
-/* Button Styling */
 .button {
     background-color: #333333;
     border: 2px solid #ff4081;
@@ -76,7 +73,6 @@ h1 {
     animation: glow 1.5s ease-in-out infinite alternate;
 }
 
-/* Button Hover Effects */
 .button:hover {
     background-color: #444444;
     transform: translateY(-4px);
@@ -84,7 +80,6 @@ h1 {
     box-shadow: 0 6px 14px rgba(0, 0, 0, 0.8);
 }
 
-/* Button Active Effects */
 .button:active {
     background-color: #555555;
     transform: translateY(2px);
@@ -95,7 +90,6 @@ h1 {
     outline: none;
 }
 
-/* Glowing effect for buttons */
 @keyframes glow {
     0% {
         text-shadow: 0 0 8px rgba(255, 255, 255, 0.8),
